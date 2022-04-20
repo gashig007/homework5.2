@@ -1,5 +1,7 @@
 package com.geektech.homework52.ui.posts;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.geektech.homework52.databinding.FragmentPostsBinding;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +54,16 @@ public class PostsFragment extends Fragment implements OnClick {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recycler.setAdapter(adapter);
+        getPosts();
+        binding.btnFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            navController.navigate(R.id.action_postsFragment_to_formFragment);
+            }
+        });
+    }
 
+    private void getPosts() {
         App.api.getPosts().enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -65,13 +77,6 @@ public class PostsFragment extends Fragment implements OnClick {
 
             }
         });
-
-        binding.btnFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            navController.navigate(R.id.action_postsFragment_to_formFragment);
-            }
-        });
     }
 
     @Override
@@ -80,4 +85,36 @@ public class PostsFragment extends Fragment implements OnClick {
         bundle.putSerializable("post", post);
         Navigation.findNavController(requireView()).navigate(R.id.formFragment, bundle);
     }
+
+    @Override
+    public void longClick(Post post) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireActivity());
+        dialog.setTitle("Удалить");
+        dialog.setMessage("Вы точно хотите удалить?");
+        dialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                App.api.deletePost(post.getId()).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        getPosts();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        dialog.setNegativeButton("Отменить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialog.show();
+    }
+
+
 }

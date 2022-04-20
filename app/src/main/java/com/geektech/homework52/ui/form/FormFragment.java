@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class FormFragment extends Fragment {
     private FragmentFormBinding binding;
-    private static final int userId = 0;
+    private static final int userId = 1;
     private static final int groupId = 41;
     private Post post;
 
@@ -45,19 +45,20 @@ public class FormFragment extends Fragment {
             public void onClick(View view) {
                 String title = binding.etTitle.getText().toString();
                 String content = binding.etContent.getText().toString();
-                if (post != null){
+                if (getArguments() != null){
                     updatePost(title, content);
                 }else {
                     createPost(title, content);
                 }
+
             }
         });
     }
 
     private void getBundle() {
         Bundle bundle = getArguments();
-        post = (Post) bundle.getSerializable("post");
-        if (post != null){
+        if (getArguments() != null){
+            post = (Post) bundle.getSerializable("post");
             binding.etContent.setText(post.getContent());
             binding.etTitle.setText(post.getTitle());
         }

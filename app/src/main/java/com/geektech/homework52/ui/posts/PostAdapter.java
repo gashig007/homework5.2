@@ -12,11 +12,13 @@ import com.geektech.homework52.data.remote.OnClick;
 import com.geektech.homework52.databinding.ItemPostBinding;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private List<Post> posts = new ArrayList<>();
     private OnClick onClick;
+    HashMap<Integer, String> hashMap = new HashMap<>();
 
     public void setOnClick(OnClick onClick) {
         this.onClick = onClick;
@@ -37,6 +39,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         holder.onBind(posts.get(position));
+        holder.hashmap();
     }
 
     @Override
@@ -53,7 +56,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void onBind(Post post) {
-            binding.tvUserId.setText(String.valueOf(post.getUserId()));
+            binding.tvUserId.setText(hashMap.get(post.getUserId()));
             binding.tvTitle.setText(post.getTitle());
             binding.tvContent.setText(post.getContent());
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     onClick.click(post);
                 }
             });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onClick.longClick(post);
+                    return true;
+                }
+            });
+        }
+
+        public void hashmap() {
+            hashMap.put(1, "Гоша");
+            hashMap.put(2, "Дастан");
+            hashMap.put(3, "Санжар");
+            hashMap.put(4, "Юнус");
+            hashMap.put(5, "Нурмухаммед");
+            hashMap.put(6, "Марат");
+            hashMap.put(7, "Бексултан");
+            hashMap.put(8, "Матай");
+            hashMap.put(9, "Арстан");
+            hashMap.put(10, "Ислам");
+            hashMap.put(11, "Элмурод");
         }
     }
 }
