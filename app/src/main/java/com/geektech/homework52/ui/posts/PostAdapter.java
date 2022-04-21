@@ -75,17 +75,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void hashmap() {
-            hashMap.put(1, "Гоша");
-            hashMap.put(2, "Дастан");
-            hashMap.put(3, "Санжар");
-            hashMap.put(4, "Юнус");
-            hashMap.put(5, "Нурмухаммед");
-            hashMap.put(6, "Марат");
-            hashMap.put(7, "Бексултан");
-            hashMap.put(8, "Матай");
-            hashMap.put(9, "Арстан");
-            hashMap.put(10, "Ислам");
-            hashMap.put(11, "Элмурод");
+            hashMap.put(1, "Ислам");
+            hashMap.put(2, "Нурель");
+            hashMap.put(3, "Матай");
+            hashMap.put(4, "Марат");
+            hashMap.put(5, "Санжар");
+            hashMap.put(6, "Эльмурод");
+            hashMap.put(7, "Арстан");
+            hashMap.put(8, "Дастан");
+            hashMap.put(9, "Бексултан");
+            hashMap.put(10, "Гоша");
         }
     }
 }
